@@ -4,12 +4,17 @@ import { glob } from "glob";
 import path from "path";
 
 import { PluginRawInstance } from "../../types";
+import * as loaderIpc from "./loader-fs-ipc";
 
 export class PluginLoaderFileSystem {
 	#roots: string[];
 
 	constructor(paths: string[]) {
 		this.#roots = paths;
+	}
+
+	static ipc() {
+		return loaderIpc;
 	}
 
 	search(): PluginRawInstance[] {

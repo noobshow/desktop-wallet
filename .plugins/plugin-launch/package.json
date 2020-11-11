@@ -1,4 +1,7 @@
 {
 	"id": 1,
-	"name": "plugin-my-exchange"
+	"name": "plugin-my-exchange",
+	"urls": [
+		"https://dexplorer.ark.io"
+	]
 }

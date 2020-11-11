@@ -1,8 +1,21 @@
+import { Contracts } from "@arkecosystem/platform-sdk";
+
+import { PluginHooks } from "./core/internals/plugin-hooks";
 import { PluginController } from "./core/plugin-controller";
 
 export interface PluginAPI {
 	launch(): {
 		render(children: React.ReactNode): void;
+	};
+	http(): {
+		get: (url: string, query?: object) => Promise<Contracts.HttpResponse>;
+		post: (url: string, data?: object) => Promise<Contracts.HttpResponse>;
+	};
+	events(): {
+		on: (channel: string) => void;
+	};
+	profile(): {
+		wallets: () => Record<string, any>[];
 	};
 }
 
@@ -21,6 +34,9 @@ export interface PluginRawInstance {
 
 export enum PluginServiceIdentifier {
 	Launch = "LAUNCH",
+	HTTP = "HTTP",
+	Events = "EVENTS",
+	Profile = "PROFILE",
 }
 
 export interface PluginServiceConfig {
@@ -31,5 +47,5 @@ export interface PluginServiceConfig {
 export interface PluginService {
 	config: () => PluginServiceConfig;
 	api: (plugin: PluginController) => Record<string, Function>;
-	boot?: () => void;
+	boot?: (context: { hooks: PluginHooks }) => void;
 }

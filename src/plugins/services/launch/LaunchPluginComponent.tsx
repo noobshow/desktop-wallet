@@ -1,11 +1,11 @@
+import { usePluginManager } from "plugins/context";
+import { PluginServiceIdentifier } from "plugins/types";
 import React from "react";
 
-import { usePluginManager } from "../context";
-import { PluginServiceIdentifier } from "../types";
 import { LaunchPluginService } from "./LaunchPluginService";
 
 type Props = {
-	pluginId: string;
+	pluginId: number;
 	fallback?: React.ReactNode;
 };
 

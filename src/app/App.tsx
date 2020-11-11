@@ -16,7 +16,14 @@ import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 import { ApplicationError, Offline } from "domains/error/pages";
 import { Splash } from "domains/splash/pages";
 import electron from "electron";
-import { LaunchPluginService, PluginManagerProvider, usePluginManagerContext } from "plugins";
+import {
+	EventsPluginService,
+	HttpPluginService,
+	LaunchPluginService,
+	PluginManagerProvider,
+	ProfilePluginService,
+	usePluginManagerContext,
+} from "plugins";
 import { PluginRouterWrapper } from "plugins/components/PluginRouterWrapper";
 import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { ErrorBoundary, useErrorHandler } from "react-error-boundary";
@@ -126,7 +133,16 @@ const Main = () => {
 };
 
 const PluginMain = ({ children }: { children: React.ReactNode }) => (
-	<PluginManagerProvider services={[new LaunchPluginService()]}>{children}</PluginManagerProvider>
+	<PluginManagerProvider
+		services={[
+			new LaunchPluginService(),
+			new HttpPluginService(),
+			new EventsPluginService(),
+			new ProfilePluginService(),
+		]}
+	>
+		{children}
+	</PluginManagerProvider>
 );
 
 export const App = () => {

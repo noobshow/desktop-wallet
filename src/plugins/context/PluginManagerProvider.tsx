@@ -1,4 +1,4 @@
-import { invokeLoaderFileSystem } from "plugins/loader/fs";
+import { PluginLoaderFileSystem } from "plugins/loader/fs";
 import { PluginService } from "plugins/types";
 import React, { useCallback, useState } from "react";
 
@@ -15,7 +15,7 @@ const useManager = (services: PluginService[]) => {
 	});
 
 	const loadPlugins = useCallback(async () => {
-		const results = await invokeLoaderFileSystem();
+		const results = await PluginLoaderFileSystem.ipc().invokeLoaderFileSystem();
 		pluginManager.plugins().import(results);
 	}, [pluginManager]);
 

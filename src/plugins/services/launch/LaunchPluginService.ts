@@ -1,7 +1,6 @@
 import { PluginController } from "plugins/core";
+import { PluginService, PluginServiceIdentifier } from "plugins/types";
 import React from "react";
-
-import { PluginService, PluginServiceIdentifier } from "../types";
 
 export class LaunchPluginService implements PluginService {
 	#nodes: Record<string, React.ReactNode> = {};
@@ -13,7 +12,7 @@ export class LaunchPluginService implements PluginService {
 		};
 	}
 
-	get(pluginId: string) {
+	get(pluginId: number) {
 		return this.#nodes[pluginId];
 	}
 

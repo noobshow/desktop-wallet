@@ -1,5 +1,5 @@
 import { Profile } from "@arkecosystem/platform-sdk-profiles";
-import { runUntrustedCode } from "plugins/loader";
+import { runUnknownCode } from "plugins/loader";
 
 import { PluginRawInstance } from "../types";
 import { PluginController } from "./plugin-controller";
@@ -17,7 +17,13 @@ export class PluginControllerRepository {
 		return this.#plugins;
 	}
 
+	findById(id: number) {
+		return this.#plugins.find((item) => item.id() === id);
+	}
+
 	boot(profile: Profile) {
+		this.#services.hooks().emit("profile", profile);
+
 		for (const ctrl of this.#plugins) {
 			ctrl.boot(profile);
 		}
@@ -27,7 +33,7 @@ export class PluginControllerRepository {
 		const plugins: PluginController[] = [];
 
 		for (const entry of instances) {
-			const callback = runUntrustedCode(entry.source, entry.path);
+			const callback = runUnknownCode(entry.source, entry.path);
 			const plugin = new PluginController(
 				entry.config,
 				// @ts-ignore
