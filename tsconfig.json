@@ -17,5 +17,4 @@
 		"jsx": "react"
 	},
 	"include": ["src", "public", "custom.d.ts"],
-	"exclude": ["**/*.test.ts", "**/*.test.tsx"]
 }

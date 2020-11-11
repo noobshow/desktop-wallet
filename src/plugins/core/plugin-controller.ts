@@ -2,7 +2,7 @@ import { Profile } from "@arkecosystem/platform-sdk-profiles";
 
 import { PluginAPI, PluginConfig } from "../types";
 import { PluginHooks } from "./internals/plugin-hooks";
-import { withPluginPermission } from "./internals/plugin-permission";
+import { applyPluginMiddlewares, isPluginEnabled } from "./internals/plugin-permission";
 import { PluginServiceRepository } from "./plugin-service-repository";
 
 type Callback = (api: PluginAPI) => void;
@@ -35,13 +35,14 @@ export class PluginController {
 	boot(profile: Profile) {
 		const pluginAPI = this.#services.api(this, profile);
 
-		const guard = withPluginPermission(this.id(), profile);
+		const guard = applyPluginMiddlewares({ profile, plugin: this }, [isPluginEnabled]);
 
-		const result = guard(this.#callback?.(pluginAPI));
-
-		this.#hooks.emit("activated");
-
-		return result;
+		try {
+			guard(this.#callback?.(pluginAPI));
+			this.#hooks.emit("activated");
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	dispose() {

@@ -1,10 +1,27 @@
 import { Profile } from "@arkecosystem/platform-sdk-profiles";
 
-export const withPluginPermission = (pluginId: number, profile: Profile) => (param: any) =>
-	// if (!profile.plugins().findById(pluginId)?.isEnabled) {
-	// throw new Error("ERR_PLUGIN_NOT_ENABLED");
-	// }
+import { PluginController } from "../plugin-controller";
+import { PluginServiceData } from "../plugin-service";
 
-	param;
+type MiddlewareContext = {
+	profile: Profile,
+	plugin: PluginController,
+	service?: PluginServiceData
+}
 
-export const withServicePermission = (serviceId: string, profile: Profile) => (param: any) => param;
+type Rule = (context: MiddlewareContext) => boolean;
+
+// export const isServiceDefinedInConfig: Rule = ({ service, plugin }) => !!service && plugin.config().permissions?.includes(service.id());
+export const isServiceDefinedInConfig: Rule = () => true;
+export const isServiceEnabled: Rule = () => true;
+export const isPluginEnabled: Rule = ({ profile, plugin }) => profile.plugins().findById(plugin.id()).isEnabled;
+
+export const applyPluginMiddlewares = (context: MiddlewareContext, rules: Rule[]) => (response: any) => {
+	const isValid = rules.every(rule => rule(context));
+
+	if (!isValid) {
+		throw new Error();
+	}
+
+	return response;
+}

@@ -15,7 +15,7 @@ const useManager = (services: PluginService[]) => {
 	});
 
 	const loadPlugins = useCallback(async () => {
-		const results = await PluginLoaderFileSystem.ipc().invokeLoaderFileSystem();
+		const results = await PluginLoaderFileSystem.ipc().invoke();
 		pluginManager.plugins().import(results);
 	}, [pluginManager]);
 

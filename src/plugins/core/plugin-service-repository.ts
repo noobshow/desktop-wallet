@@ -2,6 +2,7 @@ import { Profile } from "@arkecosystem/platform-sdk-profiles";
 
 import { PluginAPI, PluginService, PluginServiceIdentifier } from "../types";
 import { PluginHooks } from "./internals/plugin-hooks";
+import { applyPluginMiddlewares, isServiceDefinedInConfig, isServiceEnabled } from "./internals/plugin-permission";
 import { PluginController } from "./plugin-controller";
 import { PluginServiceData } from "./plugin-service";
 
@@ -25,10 +26,10 @@ export class PluginServiceRepository {
 		const result = {};
 
 		for (const service of this.#services) {
-			// const guard = withServicePermission(plugin.id(), profile);
+			const guard = applyPluginMiddlewares({ profile, plugin, service }, [isServiceEnabled, isServiceDefinedInConfig])
 			const accessor = service.accessor();
 			// @ts-ignore
-			result[accessor] = () => service.api(plugin);
+			result[accessor] = guard(() => service.api(plugin));
 		}
 
 		return result as PluginAPI;

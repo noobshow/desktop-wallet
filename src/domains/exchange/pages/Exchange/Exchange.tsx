@@ -1,10 +1,10 @@
 import { Header } from "app/components/Header";
+import { Image } from "app/components/Image";
 import { Page, Section } from "app/components/Layout";
 import { Slider } from "app/components/Slider";
 import { useActiveProfile } from "app/hooks";
 import { AddExchange } from "domains/exchange/components/AddExchange";
 import { AddExchangeCard, BlankExchangeCard, ExchangeCard } from "domains/exchange/components/ExchangeCard";
-import { PluginLaunchRender } from "plugins/services";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -95,7 +95,7 @@ export const Exchange = ({ exchanges }: ExchangeProps) => {
 	const activeProfile = useActiveProfile();
 
 	const [modalIsOpen, setModalIsOpen] = useState(false);
-	const [selectedExchange, setSelectedExchange] = useState<any>(null);
+	const [selectedExchange, setSelectedExchange] = useState(null);
 
 	const { t } = useTranslation();
 
@@ -118,7 +118,17 @@ export const Exchange = ({ exchanges }: ExchangeProps) => {
 				</Section>
 
 				<Section className="flex-1">
-					{selectedExchange && <PluginLaunchRender pluginId={selectedExchange.id} />}
+					{exchanges.length ? (
+						<div className="text-center">
+							<Image name="ExchangeCardsBanner" domain="exchange" className="mx-auto" />
+
+							<div className="mt-8 text-theme-secondary-text">
+								{t("EXCHANGE.SELECT_EXCHANGE_MESSAGE")}
+							</div>
+						</div>
+					) : (
+						<Image name="NoExchangesBanner" domain="exchange" className="mx-auto" />
+					)}
 				</Section>
 			</Page>
 
@@ -128,10 +138,5 @@ export const Exchange = ({ exchanges }: ExchangeProps) => {
 };
 
 Exchange.defaultProps = {
-	exchanges: [
-		{
-			id: 1,
-			name: "plugin-my-exchange",
-		},
-	],
+	exchanges: [],
 };

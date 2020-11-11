@@ -24,6 +24,7 @@ export interface PluginConfig {
 	id: number;
 	name: string;
 	version: string;
+	permissions: string[]
 }
 
 export interface PluginRawInstance {

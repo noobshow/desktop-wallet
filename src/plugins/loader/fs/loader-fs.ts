@@ -27,6 +27,7 @@ export class PluginLoaderFileSystem {
 
 			const sourcePath = resolve.sync(dir, ".");
 
+			/* istanbul ignore next */
 			if (sourcePath) {
 				const source = fs.readFileSync(sourcePath, "utf-8");
 
