@@ -5,6 +5,7 @@ const winState = require("electron-window-state");
 const path = require("path");
 const assignMenu = require("./menu");
 const { setupUpdater } = require("./updater");
+const { setupPlugins } = require("./plugins");
 
 const { BrowserWindow, app, screen, ipcMain } = electron;
 
@@ -140,3 +141,5 @@ app.on("open-url", (event, url) => {
 
 app.setAsDefaultProtocolClient("ark", process.execPath, ["--"]);
 app.allowRendererProcessReuse = false;
+
+setupPlugins();
