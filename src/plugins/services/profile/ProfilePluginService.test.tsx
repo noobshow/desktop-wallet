@@ -5,7 +5,13 @@ import { env } from "utils/testing-library";
 
 import { ProfilePluginService } from "./ProfilePluginService";
 
-const meta = { id: 1, name: "test", version: "1.1", permissions: ["PROFILE"], urls: [], isEnabled: true };
+const meta = {
+	id: 1,
+	name: "test",
+	version: "1.1",
+	"desktop-wallet": { permissions: ["PROFILE"], urls: [] },
+	isEnabled: true,
+};
 
 describe("StorePluginService", () => {
 	let profile: Profile;

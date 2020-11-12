@@ -1,5 +1,5 @@
 import { Contracts } from "@arkecosystem/platform-sdk";
-import { DataRepository } from "@arkecosystem/platform-sdk-profiles";
+import { DataRepository, RegistryPluginManifest } from "@arkecosystem/platform-sdk-profiles";
 
 import { PluginManager } from "./core";
 import { PluginHooks } from "./core/internals/plugin-hooks";
@@ -27,12 +27,11 @@ export interface PluginAPI {
 	};
 }
 
-// TODO: Export from SDK
 export interface PluginConfig {
 	id: number;
 	name: string;
 	version: string;
-	permissions: string[];
+	"desktop-wallet": RegistryPluginManifest;
 }
 
 export interface PluginRawInstance {

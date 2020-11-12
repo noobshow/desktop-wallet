@@ -28,12 +28,23 @@ export class PluginController {
 		return this.#config;
 	}
 
+	manifest() {
+		return this.#config["desktop-wallet"];
+	}
+
 	id() {
 		return this.#config.id;
 	}
 
 	name() {
 		return this.#config.name;
+	}
+
+	// TODO: Better integration with SDK
+	enable(profile: Profile) {
+		// @ts-ignore
+		profile.plugins().push({ ...this.config(), isEnabled: true });
+		this.boot(profile);
 	}
 
 	boot(profile: Profile) {

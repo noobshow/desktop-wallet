@@ -18,8 +18,7 @@ export class HttpPluginService implements PluginService {
 	}
 
 	private send(type: "get" | "post", plugin: PluginController, url: string, ...args: any) {
-		// @ts-ignore
-		const isValid = plugin.config().urls?.some((uri) => new RegExp(uri).test(url));
+		const isValid = plugin.manifest().urls?.some((uri) => new RegExp(uri).test(url));
 
 		if (!isValid) {
 			throw new Error("ERR_HTTP_SERVICE_INVALID");

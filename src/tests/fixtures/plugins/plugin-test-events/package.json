@@ -1,0 +1,9 @@
+{
+	"id": 1,
+	"name": "plugin-example-events",
+	"desktop-wallet": {
+		"permissions": [
+			"EVENTS"
+		]
+	}
+}

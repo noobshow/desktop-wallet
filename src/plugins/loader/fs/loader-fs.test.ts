@@ -16,11 +16,12 @@ describe("PluginLoaderFileSystem", () => {
 			{
 				config: {
 					id: 1,
-					name: "plugin-my-exchange",
-					permissions: ["HTTP"],
-					urls: ["https://dexplorer.ark.io"],
+					name: "plugin-test-events",
+					"desktop-wallet": {
+						permissions: ["EVENTS"],
+					},
 				},
-				path: path.join(root, "plugin-my-exchange", "index.js"),
+				path: path.join(root, "plugin-test-events", "index.js"),
 				source: expect.any(String),
 			},
 		]);

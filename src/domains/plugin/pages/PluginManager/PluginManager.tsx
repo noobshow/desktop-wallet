@@ -6,11 +6,13 @@ import { HeaderSearchBar } from "app/components/Header/HeaderSearchBar";
 import { Icon } from "app/components/Icon";
 import { Page, Section } from "app/components/Layout";
 import { SearchBarPluginFilters } from "app/components/SearchBar/SearchBarPluginFilters";
+import { useEnvironmentContext } from "app/contexts";
 import { useActiveProfile } from "app/hooks";
 import { InstallPlugin } from "domains/plugin/components/InstallPlugin";
 import { PluginGrid } from "domains/plugin/components/PluginGrid";
 import { PluginList } from "domains/plugin/components/PluginList";
 import { PluginManagerNavigationBar } from "domains/plugin/components/PluginManagerNavigationBar";
+import { usePluginManager } from "plugins";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -166,6 +168,9 @@ export const PluginManager = ({ paths }: PluginManagerProps) => {
 	const activeProfile = useActiveProfile();
 	const history = useHistory();
 
+	const pluginManager = usePluginManager();
+	const { persist } = useEnvironmentContext();
+
 	const [blacklist, setBlacklist] = useState<any>([]);
 
 	useEffect(() => {
@@ -205,6 +210,16 @@ export const PluginManager = ({ paths }: PluginManagerProps) => {
 	}
 
 	const pluginList = plugins.filter((plugin: any) => !blacklist.find((id: any) => plugin.id === id));
+	const installedPlugins = pluginManager
+		.plugins()
+		.all()
+		.map((item) => ({
+			...item.config(),
+			category: "other",
+			isInstalled: false,
+			rating: 5.0,
+			size: "100 KB",
+		}));
 
 	return (
 		<>
@@ -263,7 +278,28 @@ export const PluginManager = ({ paths }: PluginManagerProps) => {
 							</div>
 						)}
 
-						{currentView !== "home" && viewType === "grid" && (
+						{currentView === "my-plugins" && viewType === "grid" && (
+							<PluginGrid
+								plugins={installedPlugins}
+								onSelect={handleSelectPlugin}
+								onDelete={() => console.log("delete")}
+								className="mt-6"
+							/>
+						)}
+
+						{currentView === "my-plugins" && viewType === "list" && (
+							<PluginList
+								plugins={installedPlugins}
+								onInstall={(plugin: any) => {
+									pluginManager.plugins().findById(plugin.id)?.enable(activeProfile);
+									persist();
+								}}
+								onDelete={() => console.log("delete")}
+								className="mt-6"
+							/>
+						)}
+
+						{!["home", "my-plugins"].includes(currentView) && viewType === "grid" && (
 							<div>
 								<h2 className="font-bold">
 									{t(`PLUGINS.PAGE_PLUGIN_MANAGER.VIEW.${snakeCase(currentView)?.toUpperCase()}`)}
@@ -277,7 +313,7 @@ export const PluginManager = ({ paths }: PluginManagerProps) => {
 							</div>
 						)}
 
-						{currentView !== "home" && viewType === "list" && (
+						{!["home", "my-plugins"].includes(currentView) && viewType === "list" && (
 							<PluginList
 								plugins={pluginList}
 								onInstall={() => setInstallPlugin(true)}

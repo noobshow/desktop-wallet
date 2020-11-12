@@ -28,14 +28,16 @@ The process can now render it with:
 
 The Plugin API provides methods for the plugin to interact with registered services.
 
-### Metadata
+### Manifest
 
 Some properties must be defined in the `package.json` so that the user knows what is being used by the plugin.
 
 ```json
 {
-	"permissions": ["HTTP", "STORE", "LAUNCH", "EVENTS"],
-	"urls": ["https://dexplorer.ark.io"]
+	"desktop-wallet": {
+		"permissions": ["HTTP", "STORE", "LAUNCH", "EVENTS"],
+		"urls": ["https://dexplorer.ark.io"]
+	}
 }
 ```
 

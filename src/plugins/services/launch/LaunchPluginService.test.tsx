@@ -7,7 +7,13 @@ import { env, render, screen } from "utils/testing-library";
 import { LaunchRender } from "./LaunchPluginComponent";
 import { LaunchPluginService } from "./LaunchPluginService";
 
-const meta = { id: 1, name: "test", version: "1.1", permissions: ["LAUNCH"], urls: [], isEnabled: true };
+const meta = {
+	id: 1,
+	name: "test",
+	version: "1.1",
+	"desktop-wallet": { permissions: ["LAUNCH"], urls: [] },
+	isEnabled: true,
+};
 const fixture = (api: PluginAPI) => api.launch().render(<h1>My Plugin</h1>);
 
 describe("LaunchPluginService", () => {
