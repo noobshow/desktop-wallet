@@ -26,7 +26,10 @@ export class PluginServiceRepository {
 		const result = {};
 
 		for (const service of this.#services) {
-			const guard = applyPluginMiddlewares({ profile, plugin, service }, [isServiceEnabled, isServiceDefinedInConfig])
+			const guard = applyPluginMiddlewares({ profile, plugin, service }, [
+				isServiceEnabled,
+				isServiceDefinedInConfig,
+			]);
 			const accessor = service.accessor();
 			// @ts-ignore
 			result[accessor] = guard(() => service.api(plugin));
