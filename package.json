@@ -19,14 +19,15 @@
 		"ItsANameToo <itsanametoo@protonmail.com>",
 		"Lúcio Rubens <lucio@ark.io>"
 	],
-	"main": "build/electron/main.js",
+	"main": "build/electron/index.js",
 	"scripts": {
-		"build": "react-app-rewired build",
-		"build:ci": "cross-env GENERATE_SOURCEMAP=false yarn build && electron-webpack",
+		"build": "yarn compile && react-app-rewired build",
+		"build:ci": "cross-env GENERATE_SOURCEMAP=false yarn build",
 		"build:e2e": "cross-env REACT_APP_BUILD_MODE=demo yarn build:ci",
 		"build:linux": "yarn build:ci && electron-builder --linux --publish never",
 		"build:mac": "yarn build:ci && electron-builder --mac --publish never",
 		"build:win": "yarn build:ci && electron-builder --win --x64 --ia32 --publish never",
+		"compile": "electron-webpack",
 		"dev": "cross-env REACT_APP_BUILD_MODE=demo concurrently --kill-others \"yarn start\" \"wait-on http://localhost:3000 && electron-webpack dev\"",
 		"eject": "react-app-rewired eject",
 		"electron-rebuild": "electron-builder install-app-deps",
@@ -310,7 +311,7 @@
 		"afterSign": "scripts/notarize.js",
 		"npmRebuild": true,
 		"extraMetadata": {
-			"main": "build/electron/main.js"
+			"main": "build/electron/index.js"
 		},
 		"publish": {
 			"provider": "github",
