@@ -1,5 +1,5 @@
 import { usePluginManager } from "plugins/context";
-import { PluginServiceIdentifier } from "plugins/types";
+import { PluginServiceIdentifier, WithPluginManager } from "plugins/types";
 import React from "react";
 
 import { LaunchPluginService } from "./LaunchPluginService";
@@ -9,11 +9,15 @@ type Props = {
 	fallback?: React.ReactNode;
 };
 
-export const PluginLaunchRender = ({ pluginId, fallback }: Props) => {
-	const manager = usePluginManager();
+export const LaunchRender = ({ pluginId, fallback, manager }: WithPluginManager<Props>) => {
 	const service = manager.services().findById(PluginServiceIdentifier.Launch)?.instance<LaunchPluginService>();
 
 	const result = service?.get(pluginId);
 
 	return <>{result || fallback}</>;
+};
+
+export const PluginLaunchRender = (props: Props) => {
+	const manager = usePluginManager();
+	return <LaunchRender {...props} manager={manager} />;
 };

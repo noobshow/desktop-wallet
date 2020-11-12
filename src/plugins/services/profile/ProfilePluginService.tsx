@@ -12,11 +12,13 @@ export class ProfilePluginService implements PluginService {
 		};
 	}
 
-	boot({ hooks }: { hooks: PluginHooks }) {
-		hooks.on("profile", (profile) => (this.#profile = profile));
+	boot(context: { hooks: PluginHooks }) {
+		context.hooks.on("profile", (profile) => (this.#profile = profile));
 	}
 
 	api() {
+		// TODO: return ReadOnlyWallet[]
+
 		return {
 			wallets: () =>
 				this.#profile

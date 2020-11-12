@@ -29,7 +29,11 @@ export class PluginControllerRepository {
 		}
 	}
 
-	import(instances: PluginRawInstance[]) {
+	push(instance: PluginController) {
+		this.#plugins.push(instance);
+	}
+
+	fill(instances: PluginRawInstance[]) {
 		const plugins: PluginController[] = [];
 
 		for (const entry of instances) {

@@ -1,7 +1,11 @@
 import { Contracts } from "@arkecosystem/platform-sdk";
+import { DataRepository } from "@arkecosystem/platform-sdk-profiles";
 
+import { PluginManager } from "./core";
 import { PluginHooks } from "./core/internals/plugin-hooks";
 import { PluginController } from "./core/plugin-controller";
+
+export type WithPluginManager<T> = T & { manager: PluginManager };
 
 export interface PluginAPI {
 	launch(): {
@@ -17,6 +21,10 @@ export interface PluginAPI {
 	profile(): {
 		wallets: () => Record<string, any>[];
 	};
+	store(): {
+		data: () => DataRepository;
+		persist: () => void;
+	};
 }
 
 // TODO: Export from SDK
@@ -24,7 +32,7 @@ export interface PluginConfig {
 	id: number;
 	name: string;
 	version: string;
-	permissions: string[]
+	permissions: string[];
 }
 
 export interface PluginRawInstance {
@@ -38,6 +46,7 @@ export enum PluginServiceIdentifier {
 	HTTP = "HTTP",
 	Events = "EVENTS",
 	Profile = "PROFILE",
+	Store = "STORE",
 }
 
 export interface PluginServiceConfig {

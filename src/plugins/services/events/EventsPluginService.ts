@@ -12,7 +12,6 @@ export class EventsPluginService implements PluginService {
 	api(plugin: PluginController) {
 		return {
 			on: plugin.hooks().on.bind(plugin.hooks()),
-			reduce: plugin.hooks().reduce.bind(plugin.hooks()),
 		};
 	}
 }

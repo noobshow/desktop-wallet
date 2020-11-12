@@ -35,4 +35,4 @@ export const PluginManagerProvider = ({
 };
 
 export const usePluginManagerContext = (): ReturnType<typeof useManager> => React.useContext(PluginManagerContext);
-export const usePluginManager = (): PluginManager => React.useContext(PluginManagerContext).pluginManager;
+export const usePluginManager = (): PluginManager => React.useContext(PluginManagerContext)?.pluginManager;
