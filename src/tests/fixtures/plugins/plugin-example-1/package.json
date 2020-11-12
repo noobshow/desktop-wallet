@@ -1,0 +1,7 @@
+{
+	"id": 1,
+	"name": "plugin-example-1",
+	"permissions": [
+		"EVENTS"
+	]
+}

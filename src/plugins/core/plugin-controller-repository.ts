@@ -24,8 +24,14 @@ export class PluginControllerRepository {
 	boot(profile: Profile) {
 		this.#services.hooks().emit("profile", profile);
 
-		for (const ctrl of this.#plugins) {
-			ctrl.boot(profile);
+		const enabledPlugins = profile
+			.plugins()
+			.values()
+			.filter((item) => item.isEnabled);
+
+		for (const plugin of enabledPlugins) {
+			const ctrl = this.findById(plugin.id);
+			ctrl?.boot(profile);
 		}
 	}
 
