@@ -67,7 +67,7 @@ const Page = () => {
 				{pluginManager.plugins().all().map(plugin => (
 					<li key={plugin.id()}>
 						<span>{plugin.name()}</span>
-						<button onClick={() => plugin.boot(activeProfile)}>
+						<button onClick={() => plugin.enable(activeProfile)}>
 							Enable
 						</button>
 					</li>
