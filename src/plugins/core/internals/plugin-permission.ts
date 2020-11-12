@@ -15,7 +15,6 @@ export const isServiceDefinedInConfig: Rule = ({ service, plugin }) => (result) 
 	if (!!service && plugin.manifest().permissions?.includes(service.id())) {
 		return result;
 	}
-	console.log("af");
 	return console.error.bind(console, `The plugin ${plugin.name()} did not defined ${service?.id()} in permissions.`);
 };
 
