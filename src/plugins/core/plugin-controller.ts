@@ -32,6 +32,10 @@ export class PluginController {
 		return this.#config.id;
 	}
 
+	name() {
+		return this.#config.name;
+	}
+
 	boot(profile: Profile) {
 		const pluginAPI = this.#services.api(this, profile);
 

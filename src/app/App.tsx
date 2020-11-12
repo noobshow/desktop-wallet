@@ -22,6 +22,7 @@ import {
 	LaunchPluginService,
 	PluginManagerProvider,
 	ProfilePluginService,
+	StorePluginService,
 	usePluginManagerContext,
 } from "plugins";
 import { PluginRouterWrapper } from "plugins/components/PluginRouterWrapper";
@@ -139,6 +140,7 @@ const PluginMain = ({ children }: { children: React.ReactNode }) => (
 			new HttpPluginService(),
 			new EventsPluginService(),
 			new ProfilePluginService(),
+			new StorePluginService(),
 		]}
 	>
 		{children}
