@@ -16,7 +16,7 @@ export interface PluginAPI {
 		post: (url: string, data?: object) => Promise<Contracts.HttpResponse>;
 	};
 	events(): {
-		on: (channel: string) => void;
+		on: (channel: string, callback: () => void) => void;
 	};
 	profile(): {
 		wallets: () => Record<string, any>[];

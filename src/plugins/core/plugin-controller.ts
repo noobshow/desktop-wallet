@@ -49,7 +49,6 @@ export class PluginController {
 
 	boot(profile: Profile) {
 		const pluginAPI = this.#services.api(this, profile);
-
 		const guard = applyPluginMiddlewares({ profile, plugin: this }, [isPluginEnabled]);
 
 		try {

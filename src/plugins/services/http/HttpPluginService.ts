@@ -21,7 +21,7 @@ export class HttpPluginService implements PluginService {
 		const isValid = plugin.manifest().urls?.some((uri) => new RegExp(uri).test(url));
 
 		if (!isValid) {
-			throw new Error("ERR_HTTP_SERVICE_INVALID");
+			throw new Error(`URL "${url}" not found in the plugin "${plugin.name()}" manifest.`);
 		}
 
 		return httpClient[type](url, ...args);
